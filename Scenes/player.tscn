@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://dmiif140ljxm4"]
+
+[ext_resource type="Script" uid="uid://3y74qfj30jh8" path="res://Scripts/movement.gd" id="1_urp6f"]
+[ext_resource type="AudioStream" uid="uid://g6skkcaqhkav" path="res://Resources/Sounds/pack/monster/Bell_low.mp3" id="2_bwjto"]
+[ext_resource type="AudioStream" uid="uid://1wcie31m2r5x" path="res://Resources/Sounds/background_ac.mp3" id="3_606se"]
+[ext_resource type="AudioStream" uid="uid://cldeetj63d66p" path="res://Resources/Sounds/bg.mp3" id="4_u1c27"]
+[ext_resource type="AudioStream" uid="uid://cureshw8qj51q" path="res://Resources/Sounds/pack/footsteps/Footsteps_walking_new1.mp3" id="5_op7ga"]
+[ext_resource type="AudioStream" uid="uid://cck3oaq8tn8m4" path="res://Resources/Sounds/pack/footsteps/Footsteps_walking_new2.mp3" id="6_q13i1"]
+[ext_resource type="AudioStream" uid="uid://s45x45f06con" path="res://Resources/Sounds/pack/footsteps/Footsteps_walking_new_3.mp3" id="7_pylmc"]
+[ext_resource type="AudioStream" uid="uid://c2qp8ns582cbh" path="res://Resources/Sounds/pack/footsteps/Footsteps_walking_new_4.mp3" id="8_pbfsw"]
+[ext_resource type="AudioStream" uid="uid://cgaaaxk5i8grv" path="res://Resources/Sounds/breaking_wood.wav" id="9_5tmop"]
+[ext_resource type="AudioStream" uid="uid://djw8t8weikma6" path="res://Resources/Sounds/rock_pick_up.mp3" id="10_7ahtn"]
+[ext_resource type="AudioStream" uid="uid://c4ayli3md3c3f" path="res://Resources/Sounds/pack/Ghost_scream_3.wav" id="11_7lmhl"]
+[ext_resource type="AudioStream" uid="uid://dt8tgeruceya7" path="res://Resources/Sounds/wind-artificial-18750.mp3" id="12_dx0e4"]
+[ext_resource type="Script" uid="uid://dxio7x6k2h333" path="res://Scripts/wind.gd" id="13_jm5j8"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ynlg5"]
+random_pitch = 1.1
+streams_count = 4
+stream_0/stream = ExtResource("5_op7ga")
+stream_1/stream = ExtResource("6_q13i1")
+stream_2/stream = ExtResource("7_pylmc")
+stream_3/stream = ExtResource("8_pbfsw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cj3xu"]
+size = Vector3(1, 1.89746, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyht1"]
+size = Vector3(1, 2.3235474, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3dlgs"]
+radius = 0.111947
+height = 1.32483
+
+[node name="Player" type="CharacterBody3D" unique_id=1726154897 node_paths=PackedStringArray("footsteps")]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_urp6f")
+BOB_SPEED = 7.5
+BOB_AMOUNT = 1.0
+RECOVERY_SPEED = 2.0
+footsteps = NodePath("Sounds/Footsteps")
+
+[node name="Sounds" type="Node3D" parent="." unique_id=104975454]
+
+[node name="Bell" type="AudioStreamPlayer3D" parent="Sounds" unique_id=2110530221]
+stream = ExtResource("2_bwjto")
+volume_db = -80.0
+parameters/looping = true
+
+[node name="BackgroundMusic" type="AudioStreamPlayer3D" parent="Sounds" unique_id=726496026]
+stream = ExtResource("3_606se")
+volume_db = -35.0
+parameters/looping = true
+
+[node name="BackgroundMusic2" type="AudioStreamPlayer3D" parent="Sounds" unique_id=1279318356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.223686)
+stream = ExtResource("4_u1c27")
+volume_db = -30.0
+parameters/looping = true
+
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="Sounds" unique_id=1256793274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.499289, 0.223686)
+stream = SubResource("AudioStreamRandomizer_ynlg5")
+volume_db = -50.0
+
+[node name="Wood" type="AudioStreamPlayer3D" parent="Sounds" unique_id=161353492]
+stream = ExtResource("9_5tmop")
+
+[node name="RockPickUp" type="AudioStreamPlayer3D" parent="Sounds" unique_id=1244574113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.541198, 0)
+stream = ExtResource("10_7ahtn")
+volume_db = -38.0
+
+[node name="Scream" type="AudioStreamPlayer3D" parent="Sounds" unique_id=886275390]
+stream = ExtResource("11_7lmhl")
+volume_db = -50.0
+
+[node name="Wind" type="AudioStreamPlayer3D" parent="Sounds" unique_id=886349383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.2278, 0)
+stream = ExtResource("12_dx0e4")
+volume_db = -80.0
+pitch_scale = 0.7
+autoplay = true
+parameters/looping = true
+script = ExtResource("13_jm5j8")
+fade_in_time = 3.0
+
+[node name="TriggerArea" type="Area3D" parent="." unique_id=2070844557]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerArea" unique_id=1545979578]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44873, 0)
+shape = SubResource("BoxShape3D_cj3xu")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="." unique_id=831024354]
+current = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1734444105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6451097, -5.364418e-07)
+shape = SubResource("BoxShape3D_vyht1")
+debug_fill = false
+
+[node name="Neck" type="Node3D" parent="." unique_id=1021353373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.488291, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Neck" unique_id=1432989126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.140268, 0)
+
+[node name="Area3D" type="Area3D" parent="Neck/Camera3D" unique_id=1387179366]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neck/Camera3D/Area3D" unique_id=1621782554]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1.44731)
+shape = SubResource("CapsuleShape3D_3dlgs")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Neck" unique_id=1825939582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.30267)
+spot_range = 7.971
+spot_angle = 36.59

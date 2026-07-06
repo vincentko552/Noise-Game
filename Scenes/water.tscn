@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dglsc2a43gxjb"]
+
+[ext_resource type="Shader" uid="uid://dietnxqg1jkbu" path="res://Shaders/water.gdshader" id="1_7wcun"]
+[ext_resource type="AudioStream" uid="uid://whbidocj8gl4" path="res://Resources/Sounds/176617__craiggroshek__seawash-calm.mp3" id="2_dcmoc"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_huihk"]
+size = Vector2(100, 100)
+subdivide_width = 100
+subdivide_depth = 100
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eji0w"]
+render_priority = 0
+shader = ExtResource("1_7wcun")
+shader_parameter/speed = 1.0
+shader_parameter/amplitudes = PackedFloat32Array(0.1, 0.071, 0.128, 0.062, 0.146)
+shader_parameter/wavelengths = PackedFloat32Array(1, 5, 10, 200, 0.7)
+shader_parameter/water_color = Vector3(0.452, 0.1, 0.67)
+shader_parameter/height_factor = 2.0
+shader_parameter/height_color = Vector3(0.533, 0.551, 0.62)
+shader_parameter/stutter_coeff = 25.0
+
+[node name="Water" type="MeshInstance3D" unique_id=1851800167]
+mesh = SubResource("PlaneMesh_huihk")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_eji0w")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2055492257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.21843, 0, 24.2112)
+stream = ExtResource("2_dcmoc")
+attenuation_model = 1
+autoplay = true
+parameters/looping = true

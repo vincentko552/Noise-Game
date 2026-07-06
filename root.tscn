@@ -1,0 +1,366 @@
+[gd_scene format=3 uid="uid://bs3wao3xrtlmq"]
+
+[ext_resource type="Script" uid="uid://npudtlvn6c42" path="res://Scripts/fadein.gd" id="1_0aysq"]
+[ext_resource type="Script" uid="uid://bq240i2ilwx6q" path="res://Scripts/day_night_transition.gd" id="1_gd4vy"]
+[ext_resource type="Script" uid="uid://bcar36wvm7r13" path="res://Scripts/thoughts_ui.gd" id="1_lci31"]
+[ext_resource type="FontFile" uid="uid://b0hbiucie3nnm" path="res://Resources/Fonts/ByteBounce.ttf" id="2_uk3k5"]
+[ext_resource type="Script" uid="uid://birjh63rpxxie" path="res://Scripts/DayDefinition.gd" id="5_ab83r"]
+[ext_resource type="Script" uid="uid://dxhoa4oig5xr6" path="res://Scripts/quit_button.gd" id="6_sbofu"]
+[ext_resource type="Script" uid="uid://bihk4pjfxforu" path="res://Scripts/Events/game_event.gd" id="6_tilu5"]
+[ext_resource type="PackedScene" uid="uid://bb35oxo2utcbh" path="res://Shaders/Trigger.tscn" id="7_24xe2"]
+[ext_resource type="Script" uid="uid://cnwcet2a0rkjr" path="res://Scripts/Triggers/enemy_trigger.gd" id="8_cj3xu"]
+[ext_resource type="Script" uid="uid://d33owd7gwvg5t" path="res://Scripts/Triggers/sticks_trigger.gd" id="8_qoqhg"]
+[ext_resource type="Script" uid="uid://bb1phrnp6muve" path="res://Scripts/Triggers/start_sound_trigger.gd" id="10_sc48t"]
+[ext_resource type="Shader" uid="uid://ejjfe15s2t8" path="res://Shaders/color_banding.gdshader" id="10_tw3kd"]
+[ext_resource type="Script" uid="uid://bo1217t6vj0c3" path="res://Scripts/Triggers/trigger_area.gd" id="11_uk3k5"]
+[ext_resource type="Script" uid="uid://7v8vdlmysat3" path="res://Scripts/Triggers/stop_sound_trigger.gd" id="12_0aysq"]
+[ext_resource type="Shader" uid="uid://ejij5bf0hn3q" path="res://Shaders/grain.gdshader" id="12_qw60f"]
+[ext_resource type="Script" uid="uid://cd7e8b8mbxfkw" path="res://Scripts/Triggers/end_game_trigger.gd" id="15_623xu"]
+[ext_resource type="PackedScene" uid="uid://clqojh1op4nue" path="res://Scenes/terrain.tscn" id="19_7qgyb"]
+[ext_resource type="PackedScene" uid="uid://3urcj0kb34tg" path="res://Scenes/clouds.tscn" id="22_3bwdn"]
+[ext_resource type="PackedScene" uid="uid://dglsc2a43gxjb" path="res://Scenes/water.tscn" id="22_cr30j"]
+[ext_resource type="PackedScene" uid="uid://dmiif140ljxm4" path="res://Scenes/player.tscn" id="23_xu2l0"]
+[ext_resource type="Script" uid="uid://detpp4r7milqi" path="res://Effects/grain.gd" id="29_8pgb7"]
+[ext_resource type="Script" uid="uid://1b4u140jb0hb" path="res://Scripts/cheats.gd" id="40_f6va0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xu2l0"]
+size = Vector3(8.79023, 2.59521, 2.05322)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sc48t"]
+size = Vector3(9.23099, 2.59521, 5.59424)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_l8v81"]
+energy_multiplier = 0.5
+
+[sub_resource type="Sky" id="Sky_vyht1"]
+sky_material = SubResource("PanoramaSkyMaterial_l8v81")
+
+[sub_resource type="Environment" id="Environment_7owt0"]
+background_mode = 2
+background_color = Color(0.239216, 0.239216, 0.239216, 1)
+sky = SubResource("Sky_vyht1")
+tonemap_mode = 1
+tonemap_white = 1.68
+ssao_enabled = true
+glow_normalized = true
+glow_intensity = 1.75
+glow_strength = 1.65
+glow_bloom = 0.33
+fog_enabled = true
+fog_light_energy = 0.5
+fog_density = 0.0363
+fog_height = 2.15
+fog_height_density = 0.32
+volumetric_fog_density = 0.0555
+
+[sub_resource type="Compositor" id="Compositor_1i1cu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qw60f"]
+shader = ExtResource("10_tw3kd")
+shader_parameter/use_banding = true
+shader_parameter/use_dithering = true
+shader_parameter/dither_matrix = Projection(-4, 0, -3, 1, 2, -2, 3, -1, -3, 1, -4, 0, 3, -1, 2, -2)
+shader_parameter/banding_steps = 42
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qwhpj"]
+shader = ExtResource("12_qw60f")
+shader_parameter/grain_strength = 7.0
+
+[node name="Root" type="Node3D" unique_id=497541809]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2139023811 node_paths=PackedStringArray("panel", "player")]
+script = ExtResource("1_0aysq")
+panel = NodePath("Panel")
+player = NodePath("../Player")
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=433685702]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="ThoughtsLayer" type="CanvasLayer" parent="." unique_id=674310906 node_paths=PackedStringArray("label")]
+script = ExtResource("1_lci31")
+label = NodePath("Label")
+time_to_appear = 5.0
+
+[node name="Label" type="Label" parent="ThoughtsLayer" unique_id=329252787]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -63.0
+offset_right = -19.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.86, 0.86, 0.86, 0.603922)
+theme_override_fonts/font = ExtResource("2_uk3k5")
+text = "I'm not tired."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EndLayer" type="CanvasLayer" parent="." unique_id=720816628]
+layer = 128
+visible = false
+
+[node name="Label" type="Label" parent="EndLayer" unique_id=844144157]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_uk3k5")
+text = "Thank you for playing."
+
+[node name="QuitButton" type="Button" parent="EndLayer" unique_id=666508290]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -66.5
+offset_top = -46.0
+offset_right = 66.5
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_uk3k5")
+theme_override_font_sizes/font_size = 15
+text = "Quit"
+script = ExtResource("6_sbofu")
+
+[node name="LinkButton" type="LinkButton" parent="EndLayer" unique_id=1521681300]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -66.5
+offset_top = -63.0
+offset_right = 66.5
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_uk3k5")
+theme_override_font_sizes/font_size = 15
+text = "  Follow me on Itch.io
+"
+underline = 2
+uri = "https://vincentko552.itch.io/"
+
+[node name="Env" type="Node3D" parent="." unique_id=1804879585]
+
+[node name="DayNightManager" type="Node3D" parent="Env" unique_id=1228832502 node_paths=PackedStringArray("day_definitions", "thoughts")]
+script = ExtResource("1_gd4vy")
+day_definitions = {
+0: NodePath("DayDefinition1"),
+1: NodePath("DayDefinition2"),
+2: NodePath("DayDefinition4"),
+3: NodePath("DayDefinition5")
+}
+thoughts = NodePath("../../ThoughtsLayer")
+
+[node name="DayDefinition1" type="Node" parent="Env/DayNightManager" unique_id=1970944309 node_paths=PackedStringArray("events")]
+script = ExtResource("5_ab83r")
+events = [NodePath("SticksEvent")]
+metadata/_custom_type_script = "uid://birjh63rpxxie"
+
+[node name="SticksEvent" type="Node" parent="Env/DayNightManager/DayDefinition1" unique_id=2133227593 node_paths=PackedStringArray("trigger")]
+script = ExtResource("6_tilu5")
+trigger = NodePath("../SticksTrigger")
+metadata/_custom_type_script = "uid://bihk4pjfxforu"
+
+[node name="SticksTrigger" parent="Env/DayNightManager/DayDefinition1" unique_id=1695530566 node_paths=PackedStringArray("trigger") instance=ExtResource("7_24xe2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.118, 0, -41.1031)
+trigger = NodePath("../SticksSpawnTrigger")
+
+[node name="CollisionShape3D" parent="Env/DayNightManager/DayDefinition1/SticksTrigger/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.21628, 0, 0)
+shape = SubResource("BoxShape3D_xu2l0")
+
+[node name="SticksSpawnTrigger" type="Node" parent="Env/DayNightManager/DayDefinition1" unique_id=1447662104 node_paths=PackedStringArray("sticks", "sticksSound", "thoughts", "fade_in_layer")]
+script = ExtResource("8_qoqhg")
+sticks = NodePath("")
+sticksSound = NodePath("")
+thoughts = NodePath("../../../../ThoughtsLayer")
+delay_between_fades = 25.0
+fade_out_speed = 2.0
+fade_in_layer = NodePath("../../../../CanvasLayer")
+metadata/_custom_type_script = "uid://d33owd7gwvg5t"
+
+[node name="DayDefinition2" type="Node" parent="Env/DayNightManager" unique_id=1285254686 node_paths=PackedStringArray("events")]
+script = ExtResource("5_ab83r")
+target_fog_light_energy = 0.25
+target_sky_energy = 0.2
+events = [NodePath("StartSoundEvent")]
+metadata/_custom_type_script = "uid://birjh63rpxxie"
+
+[node name="Trigger" parent="Env/DayNightManager/DayDefinition2" unique_id=1719012406 node_paths=PackedStringArray("trigger") instance=ExtResource("7_24xe2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8505, 0, -44.3502)
+trigger = NodePath("../StartSoundTrigger")
+
+[node name="CollisionShape3D" parent="Env/DayNightManager/DayDefinition2/Trigger/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.77051)
+shape = SubResource("BoxShape3D_sc48t")
+
+[node name="StartSoundTrigger" type="Node" parent="Env/DayNightManager/DayDefinition2" unique_id=221900983 node_paths=PackedStringArray("book", "dayNightManager", "fade_in_layer")]
+script = ExtResource("10_sc48t")
+book = NodePath("")
+dayNightManager = NodePath("../..")
+delay_between_fades = 8.0
+fade_in_speed = 1.0
+fade_out_speed = 1.0
+fade_in_layer = NodePath("../../../../CanvasLayer")
+metadata/_custom_type_script = "uid://bb1phrnp6muve"
+
+[node name="StartSoundEvent" type="Node" parent="Env/DayNightManager/DayDefinition2" unique_id=348406359 node_paths=PackedStringArray("trigger")]
+script = ExtResource("6_tilu5")
+trigger = NodePath("../Trigger")
+metadata/_custom_type_script = "uid://bihk4pjfxforu"
+
+[node name="DayDefinition4" type="Node" parent="Env/DayNightManager" unique_id=1879912401 node_paths=PackedStringArray("events")]
+script = ExtResource("5_ab83r")
+target_fog_light_energy = 0.0
+target_sky_energy = 0.0086
+events = [NodePath("StopSoundEvent"), NodePath("SpawnEnemy")]
+metadata/_custom_type_script = "uid://birjh63rpxxie"
+
+[node name="SpawnEnemy" type="Node" parent="Env/DayNightManager/DayDefinition4" unique_id=841304496 node_paths=PackedStringArray("trigger")]
+script = ExtResource("6_tilu5")
+trigger = NodePath("../EnemyTrigger")
+metadata/_custom_type_script = "uid://bihk4pjfxforu"
+
+[node name="EnemyTrigger" parent="Env/DayNightManager/DayDefinition4" unique_id=622896862 node_paths=PackedStringArray("trigger") instance=ExtResource("7_24xe2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.124, 3.49223, -43.8178)
+trigger = NodePath("../EnemySpawnTrigger")
+
+[node name="CollisionShape3D" parent="Env/DayNightManager/DayDefinition4/EnemyTrigger/Area3D" index="0"]
+transform = Transform3D(0.987458, 0, -0.157882, 0, 1, 0, 0.157882, 0, 0.987458, -0.120188, -1.49225, -3.31915)
+
+[node name="EnemySpawnTrigger" type="Node" parent="Env/DayNightManager/DayDefinition4" unique_id=813822030 node_paths=PackedStringArray("enemy", "thoughts", "fade_in_layer")]
+script = ExtResource("8_cj3xu")
+enemy = NodePath("")
+thoughts = NodePath("../../../../ThoughtsLayer")
+delay_between_fades = 3.0
+fade_in_speed = 1.0
+fade_out_speed = 0.2
+fade_in_layer = NodePath("../../../../CanvasLayer")
+metadata/_custom_type_script = "uid://cnwcet2a0rkjr"
+
+[node name="StopSoundEvent" type="Node" parent="Env/DayNightManager/DayDefinition4" unique_id=785094826 node_paths=PackedStringArray("trigger")]
+script = ExtResource("6_tilu5")
+trigger = NodePath("../StopSoundTriggerArea")
+metadata/_custom_type_script = "uid://bihk4pjfxforu"
+
+[node name="StopSoundTriggerArea" type="Node3D" parent="Env/DayNightManager/DayDefinition4" unique_id=673765964 node_paths=PackedStringArray("trigger")]
+script = ExtResource("11_uk3k5")
+trigger = NodePath("../StopSoundTrigger")
+metadata/_custom_type_script = "uid://bo1217t6vj0c3"
+
+[node name="StopSoundTrigger" type="Node" parent="Env/DayNightManager/DayDefinition4" unique_id=1338278298 node_paths=PackedStringArray("book", "fade_in_layer")]
+script = ExtResource("12_0aysq")
+book = NodePath("")
+fade_in_layer = NodePath("../../../../CanvasLayer")
+metadata/_custom_type_script = "uid://7v8vdlmysat3"
+
+[node name="DayDefinition5" type="Node" parent="Env/DayNightManager" unique_id=1954921609 node_paths=PackedStringArray("events")]
+script = ExtResource("5_ab83r")
+target_fog_light_energy = 0.0
+target_sky_energy = 0.0086
+events = [NodePath("EndGameEvent")]
+metadata/_custom_type_script = "uid://birjh63rpxxie"
+
+[node name="EndGameEvent" type="Node" parent="Env/DayNightManager/DayDefinition5" unique_id=1606642585 node_paths=PackedStringArray("trigger")]
+script = ExtResource("6_tilu5")
+trigger = NodePath("../EndGameTrigger2")
+metadata/_custom_type_script = "uid://bihk4pjfxforu"
+
+[node name="EndGameTrigger2" parent="Env/DayNightManager/DayDefinition5" unique_id=1119257055 node_paths=PackedStringArray("trigger") instance=ExtResource("7_24xe2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.7112, 0, -14.886)
+trigger = NodePath("../EndGameTrigger")
+
+[node name="CollisionShape3D" parent="Env/DayNightManager/DayDefinition5/EndGameTrigger2/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.90281, 1.44537, -26.2566)
+
+[node name="EndGameTrigger" type="Node" parent="Env/DayNightManager/DayDefinition5" unique_id=1125513619 node_paths=PackedStringArray("end_layer", "fade_in_layer")]
+script = ExtResource("15_623xu")
+end_layer = NodePath("../../../../EndLayer")
+delay_between_fades = 10000.0
+fade_in_speed = 0.1
+fade_out_speed = 1000.0
+fade_in_layer = NodePath("../../../../CanvasLayer")
+metadata/_custom_type_script = "uid://cd7e8b8mbxfkw"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env" unique_id=1414502590]
+transform = Transform3D(0.75471, 0, -0.656059, 0, 1, 0, 0.656059, 0, 0.75471, 0, 0, 0)
+visible = false
+sky_mode = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env" unique_id=161708269]
+environment = SubResource("Environment_7owt0")
+compositor = SubResource("Compositor_1i1cu")
+
+[node name="Terrain" parent="Env" unique_id=687713136 instance=ExtResource("19_7qgyb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.46323, 2.96522, 0.385251)
+
+[node name="Clouds" parent="Env" unique_id=1569129135 instance=ExtResource("22_3bwdn")]
+transform = Transform3D(0.971001, 0, -8.48876e-08, 0, -0.977089, 0, 8.48876e-08, 0, 0.971001, 0, 24.2858, 0)
+
+[node name="Water" parent="Env" unique_id=1851800167 instance=ExtResource("22_cr30j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.1082, 0, -95.9258)
+
+[node name="Player" parent="." unique_id=1726154897 instance=ExtResource("23_xu2l0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0595, 1.05129, 12.194)
+
+[node name="Effects" type="Node3D" parent="." unique_id=1309029878]
+
+[node name="ColorBanding" type="CanvasLayer" parent="Effects" unique_id=1812149866]
+
+[node name="ColorRect" type="ColorRect" parent="Effects/ColorBanding" unique_id=1509966959]
+material = SubResource("ShaderMaterial_qw60f")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Grain" type="CanvasLayer" parent="Effects" unique_id=502668714]
+
+[node name="ColorRect" type="ColorRect" parent="Effects/Grain" unique_id=339712910 node_paths=PackedStringArray("enemy")]
+material = SubResource("ShaderMaterial_qwhpj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("29_8pgb7")
+enemy = NodePath("")
+shader = SubResource("ShaderMaterial_qwhpj")
+strength = 500.0
+grain_strength = 2.765
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1233580584 node_paths=PackedStringArray("dayNightManager")]
+script = ExtResource("40_f6va0")
+dayNightManager = NodePath("../Env/DayNightManager")
+
+[connection signal="pressed" from="EndLayer/QuitButton" to="EndLayer/QuitButton" method="_on_pressed"]
+
+[editable path="Env/DayNightManager/DayDefinition1/SticksTrigger"]
+[editable path="Env/DayNightManager/DayDefinition2/Trigger"]
+[editable path="Env/DayNightManager/DayDefinition4/EnemyTrigger"]
+[editable path="Env/DayNightManager/DayDefinition5/EndGameTrigger2"]

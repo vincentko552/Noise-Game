@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://doh53owyn4t75"]
+
+[ext_resource type="Script" uid="uid://ck5243fd6gmmc" path="res://Scripts/terrain.gd" id="1_goo1d"]
+[ext_resource type="Shader" uid="uid://dcobldgxxyv00" path="res://Shaders/terrain.gdshader" id="2_2587e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kry3j"]
+render_priority = 0
+shader = ExtResource("2_2587e")
+shader_parameter/terrain_height = 0.0
+
+[node name="TerrainWithCollisions" type="Node3D" unique_id=577929620]
+script = ExtResource("1_goo1d")
+shader = SubResource("ShaderMaterial_kry3j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=620085740]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=916328103]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1857004304]

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://xgbg3f0y14la"]
+
+[ext_resource type="PackedScene" uid="uid://3urcj0kb34tg" path="res://Scenes/clouds.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dglsc2a43gxjb" path="res://Scenes/water.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://doh53owyn4t75" path="res://Scenes/terrain_with_collisions.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://dmiif140ljxm4" path="res://Scenes/player.tscn" id="6_21xkr"]
+
+[node name="Main" type="Node3D" unique_id=718150668]
+
+[node name="Clouds" parent="." unique_id=1569129135 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(0.971001, 0, 0, 0, -0.977089, 0, 0, 0, 0.971001, 58.820873, 14.369027, -26.875675)
+
+[node name="Water" parent="." unique_id=1851800167 instance=ExtResource("2_8gbba")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.291304, 0, -107.28983)
+
+[node name="Player" parent="." unique_id=1726154897 instance=ExtResource("6_21xkr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.48896, 33.23223, -11.200939)
+
+[node name="TerrainWithCollisions" parent="." unique_id=577929620 instance=ExtResource("4_jjvhh")]
