@@ -22,6 +22,7 @@ config/icon="uid://brr53rfbuaquj"
 
 [display]
 
+window/size/mode=3
 window/stretch/mode="viewport"
 
 [filesystem]

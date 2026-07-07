@@ -1,19 +1,109 @@
 [gd_scene format=3 uid="uid://xgbg3f0y14la"]
 
-[ext_resource type="PackedScene" uid="uid://3urcj0kb34tg" path="res://Scenes/clouds.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dglsc2a43gxjb" path="res://Scenes/water.tscn" id="2_8gbba"]
-[ext_resource type="PackedScene" uid="uid://doh53owyn4t75" path="res://Scenes/terrain_with_collisions.tscn" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://b6d2uaimohend" path="res://addons/godot_retro/effects/compositor/posterization_complex_effect.gd" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://bhrup1cxyf8hk" path="res://addons/godot_retro/effects/compositor/dithering_effect.gd" id="6_6bp64"]
 [ext_resource type="PackedScene" uid="uid://dmiif140ljxm4" path="res://Scenes/player.tscn" id="6_21xkr"]
+[ext_resource type="Script" uid="uid://bll6xp3fyvssr" path="res://addons/godot_retro/effects/compositor/glitch_complex_effect.gd" id="7_6bp64"]
+[ext_resource type="Script" uid="uid://b8jugvnwdorhg" path="res://Effects/datamosh/datamosh_compositor.gd" id="7_344ge"]
+[ext_resource type="Script" uid="uid://jrdqa7u22v0m" path="res://addons/godot_retro/effects/compositor/grain_simple_effect.gd" id="8_ynf5e"]
+
+[sub_resource type="Environment" id="Environment_21xkr"]
+ssao_radius = 0.01
+fog_enabled = true
+fog_light_energy = 0.5
+fog_density = 0.0363
+fog_height = 2.15
+fog_height_density = 0.32
+fog_depth_end = 982.0
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_jjvhh"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("5_kry3j")
+metadata/_custom_type_script = "uid://b6d2uaimohend"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_kry3j"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("6_6bp64")
+color_factor = 7.357
+dithering_strength = 0.054
+metadata/_custom_type_script = "uid://bhrup1cxyf8hk"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_jkdf5"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("8_ynf5e")
+metadata/_custom_type_script = "uid://jrdqa7u22v0m"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_344ge"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("7_6bp64")
+noise_intensity = 0.05
+color_offset_intensity = 1.5
+metadata/_custom_type_script = "uid://bll6xp3fyvssr"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_21xkr"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = true
+needs_normal_roughness = false
+script = ExtResource("7_344ge")
+metadata/_custom_type_script = "uid://b8jugvnwdorhg"
+
+[sub_resource type="Compositor" id="Compositor_kry3j"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_jjvhh"), SubResource("CompositorEffect_kry3j"), SubResource("CompositorEffect_jkdf5"), SubResource("CompositorEffect_344ge"), SubResource("CompositorEffect_21xkr")])
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sqajq"]
+size = Vector2(255, 255)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_8gbba"]
+data = PackedVector3Array(127.5, 0, 127.5, -127.5, 0, 127.5, 127.5, 0, -127.5, -127.5, 0, 127.5, -127.5, 0, -127.5, 127.5, 0, -127.5)
 
 [node name="Main" type="Node3D" unique_id=718150668]
 
-[node name="Clouds" parent="." unique_id=1569129135 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(0.971001, 0, 0, 0, -0.977089, 0, 0, 0, 0.971001, 58.820873, 14.369027, -26.875675)
-
 [node name="Water" parent="." unique_id=1851800167 instance=ExtResource("2_8gbba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.291304, 0, -107.28983)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.19414, 29.880447, -77.9503)
 
 [node name="Player" parent="." unique_id=1726154897 instance=ExtResource("6_21xkr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.48896, 33.23223, -11.200939)
 
-[node name="TerrainWithCollisions" parent="." unique_id=577929620 instance=ExtResource("4_jjvhh")]
+[node name="WorldEnvironment2" type="WorldEnvironment" parent="." unique_id=831790870]
+environment = SubResource("Environment_21xkr")
+compositor = SubResource("Compositor_kry3j")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=2013497276]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 82.86536, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1138117907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 29.231503, 0)
+collision_layer = 4
+collision_mask = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=318690576]
+mesh = SubResource("PlaneMesh_sqajq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=476143098]
+shape = SubResource("ConcavePolygonShape3D_8gbba")
+
+[editable path="Player"]

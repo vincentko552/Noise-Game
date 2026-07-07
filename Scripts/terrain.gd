@@ -20,7 +20,7 @@ func _process(delta: float):
 func regenerate_terrain(seed: float = 0):
 	var noise := FastNoiseLite.new()
 	noise.seed = seed
-	noise.frequency = 0.009
+	noise.frequency = 0.05
 
 	var vertices := PackedVector3Array()
 	var uvs := PackedVector2Array()
